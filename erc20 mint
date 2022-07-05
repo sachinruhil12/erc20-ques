@@ -1,0 +1,43 @@
+// 1.Write an ERC20 contract which include these functionalities:-
+//      a) name = TWOISTOONE and symbol = TITO
+//      b) deposit function :-
+// a) this function accepts an erc20 token from user.
+// b) this erc20 token name is ONEISTOTWO and symbol is (OITT)
+// c) contract will accept the above token and mint TITO tokens in the
+//     Ratio of 1:2 i.e
+//     If User will give 1 OITT he will receive 2 TITO
+//       c) withdraw function :-
+//             a) user has to give how many OITT he wants to withdraw
+//             b) withdraw requires (OITT tokens user wants to withdraw * 2) <= user’s TITO balance
+//             b) if user has sufficient TITO balance then burn (OITT tokens user wants to withdraw * 2)
+//                 TITO tokens from user wallet and transfer (OITT tokens user wants to withdraw) OITT
+//                 Tokens to user
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+//import "@openzeppelin/contracts/access/Ownable.sol"; 
+ contract MYToken is ERC20{
+mapping(address=>uint) public balances;
+ constructor ()  ERC20("TWOISTOONE","TITO") {}
+ IERC20 erc20;
+
+ function  deposit(address _erc20, uint _amount) public {
+    
+    erc20  = IERC20(_erc20);
+    erc20.transferFrom(msg.sender,address(this),_amount);
+    _mint(msg.sender,_amount*2);
+ }
+
+ }
+
+contract ONEISTOTWO is ERC20{
+
+constructor() ERC20("ONEISTOTWO","OITT"){
+_mint(msg.sender,1000);
+
+}
+
+function mint(address MYToken , uint amtTito) public {
+
+_mint(MYToken,amtTito);
+
+}
+  }
